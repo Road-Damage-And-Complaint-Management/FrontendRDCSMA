@@ -1,0 +1,36 @@
+/* UploadForm.css */
+.upload-form-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    margin: auto;
+    text-align: center;
+}
+
+.upload-form-container h3 {
+    color: #333;
+}
+
+input[type="file"] {
+    margin: 15px 0;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.close-btn {
+    background: red;
+}

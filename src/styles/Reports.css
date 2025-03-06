@@ -1,0 +1,59 @@
+/* 🌟 Reports Page Styling */
+.reports-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.reports-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.report-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.report-card:hover {
+    transform: scale(1.05);
+}
+
+.report-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.report-details {
+    text-align: left;
+    padding: 10px;
+}
+
+.crack-detected {
+    color: red;
+    font-weight: bold;
+}
+
+.crack-none {
+    color: green;
+    font-weight: bold;
+}
+
+.no-reports {
+    font-size: 18px;
+    color: gray;
+}
+.image-preview {
+    width: 150px; /* Set a fixed width */
+    height: auto;
+    border-radius: 5px;
+}

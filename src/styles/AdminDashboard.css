@@ -1,0 +1,41 @@
+.reports-container {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.reports-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.reports-table th, .reports-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.reports-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.report-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.priority-high {
+    background-color: #ffcccc; /* Light red for high priority */
+    font-weight: bold;
+}
+
+.priority-medium {
+    background-color: #fff4cc; /* Light yellow for medium priority */
+}
+
+.priority-low {
+    background-color: #ddffdd; /* Light green for low priority */
+}
