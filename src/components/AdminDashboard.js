@@ -11,7 +11,7 @@ const AdminDashboard = () => {
     const highPriorityLocations = [
         "Saptapur", "HosaYellapurCross", "Gandhinagar", "Akkipeth",
         "ShriNagar", "Kalyanagar", "JubileeCircle", "TollNaka",
-        "Vidyagiri", "Old SP Circle"
+        "Vidyagiri", "Old SP Circle","Cameroon"
     ];
 
     useEffect(() => {

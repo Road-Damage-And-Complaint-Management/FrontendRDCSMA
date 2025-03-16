@@ -75,7 +75,7 @@ const UserDashboard = ({ navigateToStatus }) => {
 
     return (
         <div className="dashboard-container">
-            <h2>User Dashboard</h2>
+            <h2 className="dashboard-title">User Dashboard</h2>
 
             {/* Upload & Camera Options */}
             <div className="upload-options">
@@ -105,7 +105,7 @@ const UserDashboard = ({ navigateToStatus }) => {
                     {uploadResponse.error ? (
                         <p className="error">❌ {uploadResponse.error}</p>
                     ) : (
-                        <div>
+                        <div className="upload-success">
                             <h3>✅ Upload Successful!</h3>
                             <p><strong>Report ID:</strong> {uploadResponse._id}</p>
                             <p><strong>Crack Points:</strong> {uploadResponse.crack_points}</p>

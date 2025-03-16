@@ -1,29 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import UserDashboard from "./pages/UserDashboard";
-import AdminDashboard from "./components/AdminDashboard"; // Moved to 'pages' for better structure
-import AdminLogin from "./components/AdminLogin"; // Admin Login Page
-import LandingPage from "./pages/LandingPage"; // Separated Landing Page
-import Navbar from "./components/Navbar"; // Navbar Component
+import AdminDashboard from "./components/AdminDashboard";
+import AdminLogin from "./components/AdminLogin";
+import LandingPage from "./pages/LandingPage";
+import Navbar from "./components/Navbar";
 import "./App.css";  
 
 const App = () => {
-    const isAdminLoggedIn = sessionStorage.getItem("admin_logged_in") === "true"; // Use sessionStorage for better security
+    const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+
+    useEffect(() => {
+        setIsAdminLoggedIn(sessionStorage.getItem("admin_logged_in") === "true");
+    }, []);
 
     return (
         <Router>
             <div className="app-container">
-                <Navbar /> {/* Added Navbar for navigation */}
+                <Navbar isAdminLoggedIn={isAdminLoggedIn} />
                 
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/user-dashboard" element={<UserDashboard />} />
                     
-                    {/* Protect Admin Dashboard Route */}
-                    <Route path="/admin-dashboard" element={isAdminLoggedIn ? <AdminLogin /> : <Navigate to="/admin-login" />} />
+                    {/* Protected Admin Route - Fixed redirect to admin-login */}
+                    <Route 
+                        path="/admin-dashboard" 
+                        element={isAdminLoggedIn ? <AdminDashboard /> : <Navigate to="/admin-login" />} 
+                    />
+                    <Route path="/admin-login" element={<AdminLogin setIsAdminLoggedIn={setIsAdminLoggedIn} />} />
                     
-                    {/* Admin Login Route */}
-                    <Route path="/admin-login" element={<AdminDashboard />} />
+                    {/* Catch-all route for undefined paths */}
+                    <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
             </div>
         </Router>

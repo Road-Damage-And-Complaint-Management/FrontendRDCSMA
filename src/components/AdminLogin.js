@@ -12,21 +12,22 @@ const AdminLogin = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setError(""); // Clear previous errors
+    
         try {
             const response = await axios.post("http://localhost:5000/admin/login", {
                 email,
                 password,
-            });
-
+            }, { withCredentials: true });
+    
             if (response.data.success) {
-                // Store session info correctly
                 sessionStorage.setItem("admin_logged_in", "true");
-                navigate("/admin-dashboard"); // Redirect after successful login
+                navigate("/admin-dashboard"); // ✅ Redirect to dashboard
             } else {
                 setError(response.data.message || "Invalid email or password.");
             }
         } catch (error) {
-            setError("Login failed. Please try again.");
+            setError("Login failed. Please check your credentials.");
         }
     };
 
