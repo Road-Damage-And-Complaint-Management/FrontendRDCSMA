@@ -1,0 +1,28 @@
+.landing-container {
+    text-align: center;
+    padding: 50px;
+    background: white;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.nav-btn {
+    padding: 12px 24px;
+    font-size: 18px;
+    border: none;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+}
+
+.user-btn {
+    background-color: #007bff;
+}
+
+.admin-btn {
+    background-color: #dc3545;
+}

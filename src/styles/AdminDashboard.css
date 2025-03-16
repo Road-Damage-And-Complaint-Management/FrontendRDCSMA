@@ -1,0 +1,78 @@
+.reports-container {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.reports-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.reports-table th, .reports-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.reports-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.report-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.priority-depth {
+    background-color: #ffcccc; /* Light red for depth-based high priority */
+    font-weight: bold;
+}
+
+.priority-same-location {
+    background-color: #fff4cc; /* Light yellow for multiple reports at the same location */
+}
+
+.priority-set-location {
+    background-color: #ffdd99; /* Light orange for predefined high-priority locations */
+}
+.priority-depth {
+    background-color: #ffcccc; /* Light red */
+    font-weight: bold;
+}
+
+/* 🟡 Medium Priority: Multiple User Reports */
+.priority-same-location {
+    background-color: #fff4cc; /* Light yellow */
+}
+
+/* 🟠 Low Priority: Predefined High-Priority Locations */
+.priority-set-location {
+    background-color: #ffdd99; /* Light orange */
+}
+.priority-0 {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+}
+
+.priority-10 {
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+}
+
+.priority-20 {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+}
+
+.priority-30 {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
