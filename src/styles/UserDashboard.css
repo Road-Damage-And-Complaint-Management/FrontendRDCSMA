@@ -1,93 +1,221 @@
+/* Dashboard Container */
 .dashboard-container {
-    text-align: center;
-    max-width: 500px;
-    margin: auto;
+    max-width: 800px;
+    margin: 80px auto 20px; /* Adjusted for navbar space */
     padding: 20px;
-    background: #f8f9fa;
+    background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
+/* Headings */
+h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Upload Options */
 .upload-options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
+/* File Upload Label */
 .file-upload {
     display: inline-block;
-    padding: 10px 15px;
     background: #007bff;
     color: white;
-    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 6px;
     cursor: pointer;
+    transition: background 0.3s;
 }
 
 .file-upload input {
     display: none;
 }
 
-.camera-button, .upload-btn, .status-btn {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
+.file-upload:hover {
+    background: #0056b3;
 }
 
+/* Camera Button */
 .camera-button {
     background: #28a745;
     color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-.upload-btn {
-    background: #17a2b8;
-    color: white;
-    margin-top: 10px;
+.camera-button:hover {
+    background: #1e7e34;
 }
 
-.status-btn {
-    background: #6c757d;
-    color: white;
-    margin-top: 15px;
-}
-
+/* Camera Container */
 .camera-container {
-    margin-top: 15px;
-    position: relative;
+    margin: 20px 0;
 }
 
 video {
     width: 100%;
-    border-radius: 5px;
+    max-width: 400px;
+    border-radius: 6px;
+    border: 2px solid #ddd;
 }
 
+/* Capture Button */
 .capture-button {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 8px 12px;
-    background: #ff5733;
+    background: #ff9800;
     color: white;
+    padding: 10px 15px;
+    font-size: 14px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.capture-button:hover {
+    background: #e68900;
+}
+
+/* Upload Button */
+.upload-btn {
+    background: #17a2b8;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.upload-btn:hover {
+    background: #138496;
+}
+
+/* Upload Response */
+.upload-result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 6px;
+    background: #f9f9f9;
+    text-align: left;
+}
+
+.upload-result h3 {
+    color: #28a745;
+}
+
+.upload-result p {
+    color: #333;
+    font-size: 14px;
+}
+
+/* Error Message */
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* Image Preview */
+.image-preview {
+    margin-top: 20px;
+}
+
+.image-preview h4 {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 8px;
 }
 
 .uploaded-image {
     width: 100%;
-    max-width: 300px;
-    margin-top: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    max-width: 350px;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    margin-bottom: 15px;
 }
 
-.upload-result {
-    margin-top: 15px;
-    padding: 10px;
-    background: #e9ecef;
-    border-radius: 5px;
+/* Status Button */
+.status-btn {
+    background: #6c757d;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.status-btn:hover {
+    background: #545b62;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .dashboard-container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .upload-btn,
+    .status-btn,
+    .file-upload,
+    .camera-button {
+        width: 100%;
+        padding: 12px;
+    }
+}
+/* Image Preview Section */
+.image-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Space between images */
+    margin-top: 20px;
+    flex-wrap: nowrap; /* Ensure they stay side by side */
+}
+
+/* Container for each image */
+.image-container {
+    text-align: center;
+    flex: 1; /* Distribute space evenly */
+    max-width: 50%; /* Each image takes half the space */
+}
+
+/* Image Styling */
+.uploaded-image {
+    width: 100%;
+    max-width: 300px; /* Fix image width */
+    height: 200px; /* Set fixed height */
+    object-fit: cover; /* Crop and fit image properly */
+    border-radius: 6px;
+    border: 2px solid #ddd;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .image-preview {
+        flex-direction: column; /* Stack images on smaller screens */
+    }
+
+    .image-container {
+        max-width: 100%;
+    }
 }

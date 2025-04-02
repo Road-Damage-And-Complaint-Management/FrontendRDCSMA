@@ -8,12 +8,12 @@ const UserDashboard = ({ navigateToStatus }) => {
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
 
-    // 📁 Handle File Upload
+    // Handle File Upload
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
     };
 
-    // 📸 Start Camera
+    // Start Camera
     const startCamera = async () => {
         try {
             setCameraActive(true);
@@ -27,7 +27,7 @@ const UserDashboard = ({ navigateToStatus }) => {
         }
     };
 
-    // 📸 Capture Image from Camera
+    // Capture Image from Camera
     const capturePhoto = () => {
         if (!videoRef.current || !canvasRef.current) return;
         const context = canvasRef.current.getContext("2d");
@@ -39,12 +39,12 @@ const UserDashboard = ({ navigateToStatus }) => {
 
             if (videoRef.current.srcObject) {
                 videoRef.current.srcObject.getTracks().forEach(track => track.stop());
-                videoRef.current.srcObject = null; // Ensure video stream is cleared
+                videoRef.current.srcObject = null;
             }
         }, "image/jpeg");
     };
 
-    // 🚀 Upload Image (File/Camera)
+    // Upload Image
     const handleUpload = async (event) => {
         event.preventDefault();
         if (!selectedFile) return alert("Please select an image first!");
@@ -77,7 +77,6 @@ const UserDashboard = ({ navigateToStatus }) => {
         <div className="dashboard-container">
             <h2>User Dashboard</h2>
 
-            {/* Upload & Camera Options */}
             <div className="upload-options">
                 <label className="file-upload">
                     📁 Upload from Device
@@ -87,7 +86,6 @@ const UserDashboard = ({ navigateToStatus }) => {
                 <button className="camera-button" onClick={startCamera}>📸 Capture from Camera</button>
             </div>
 
-            {/* Camera View */}
             {cameraActive && (
                 <div className="camera-container">
                     <video ref={videoRef} autoPlay playsInline></video>
@@ -96,10 +94,8 @@ const UserDashboard = ({ navigateToStatus }) => {
                 </div>
             )}
 
-            {/* Upload Button */}
             <button className="upload-btn" onClick={handleUpload}>🚀 Upload Image</button>
 
-            {/* Upload Response */}
             {uploadResponse && (
                 <div className="upload-result">
                     {uploadResponse.error ? (
@@ -111,18 +107,34 @@ const UserDashboard = ({ navigateToStatus }) => {
                             <p><strong>Crack Points:</strong> {uploadResponse.crack_points}</p>
                             <p><strong>Crack Type:</strong> {uploadResponse.crack_type}</p>
                             <p><strong>GPS Location:</strong> {uploadResponse.location}</p>
+                            <p><strong>Latitude:</strong> {uploadResponse.gps_latitude}</p>
+                            <p><strong>Longitude:</strong> {uploadResponse.gps_longitude}</p>
                             <p><strong>Status:</strong> {uploadResponse.status}</p>
-                            <img 
-                                src={`http://127.0.0.1:5000/uploads/${uploadResponse.filename}`} 
-                                alt="Uploaded road damage"
-                                className="uploaded-image"
-                            />
+
+                            {/* Display Original and Detected Images Side by Side */}
+                            <div className="image-preview">
+                                <div className="image-container">
+                                    <h4>Original Image:</h4>
+                                    <img 
+                                        src={`http://127.0.0.1:5000/uploads/${uploadResponse.original_image}`} 
+                                        alt="Uploaded road damage"
+                                        className="uploaded-image"
+                                    />
+                                </div>
+                                <div className="image-container">
+                                    <h4>Detected Damage:</h4>
+                                    <img 
+                                        src={`http://127.0.0.1:5000/uploads/${uploadResponse.detected_image}`} 
+                                        alt="Detected road damage"
+                                        className="uploaded-image"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>
             )}
 
-            {/* Application Status Button */}
             <button className="status-btn" onClick={navigateToStatus}>📜 View Application Status</button>
         </div>
     );
