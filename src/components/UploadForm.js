@@ -4,7 +4,7 @@ import "../styles/UploadForm.css";
 
 const UploadForm = ({ closeForm }) => {
     const [selectedFile, setSelectedFile] = useState(null);
-    const [uploadResponse, setUploadResponse] = useState(null);  // ✅ Define state for response
+    const [uploadResponse, setUploadResponse] = useState(null);
 
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
@@ -12,56 +12,67 @@ const UploadForm = ({ closeForm }) => {
 
     const handleUpload = async (event) => {
         event.preventDefault();
+        if (!selectedFile) {
+            setUploadResponse({ error: "Please select a file to upload." });
+            return;
+        }
+
         const formData = new FormData();
         formData.append("image", selectedFile);
 
         try {
-            const response = await fetch("http://127.0.0.1:5000/upload", {
-                method: "POST",
-                body: formData
+            const response = await axios.post("http://127.0.0.1:5000/upload", formData, {
+                headers: { "Content-Type": "multipart/form-data" }
             });
 
-            const result = await response.json();
-
-            if (response.ok) {
-                console.log("✅ Upload successful:", result);
-                setUploadResponse(result.data);  // ✅ Store response in state
-            } else {
-                console.error("❌ Upload failed:", result.error);
-                setUploadResponse({ error: result.error });  // ✅ Handle error response
-            }
+            setUploadResponse(response.data);
         } catch (error) {
-            console.error("❌ Network error:", error);
-            setUploadResponse({ error: "Network error. Please try again." });
+            console.error("Upload failed:", error);
+            setUploadResponse({ error: error.response?.data?.error || "Upload failed. Try again." });
         }
     };
 
     return (
-        <div>
-            <h2>Upload Image</h2>
-            <form onSubmit={handleUpload}>
+        <div className="upload-container">
+            <h2>📤 Upload Road Image</h2>
+            <form onSubmit={handleUpload} className="upload-form">
                 <input type="file" onChange={handleFileChange} required />
                 <button type="submit">Upload</button>
             </form>
 
-            {/* ✅ Show upload response */}
+            {/* Display Upload Response */}
             {uploadResponse && (
                 <div className="upload-result">
                     {uploadResponse.error ? (
                         <p className="error">❌ {uploadResponse.error}</p>
                     ) : (
-                        <div>
+                        <div className="success">
                             <h3>✅ Upload Successful!</h3>
                             <p><strong>Report ID:</strong> {uploadResponse._id}</p>
                             <p><strong>Crack Points:</strong> {uploadResponse.crack_points}</p>
                             <p><strong>Crack Type:</strong> {uploadResponse.crack_type}</p>
                             <p><strong>GPS Location:</strong> {uploadResponse.location}</p>
                             <p><strong>Status:</strong> {uploadResponse.status}</p>
-                            <img 
-                                src={`http://127.0.0.1:5000/uploads/${uploadResponse.filename}`} 
-                                alt="Uploaded road damage"
-                                style={{ width: "300px", marginTop: "10px" }} 
-                            />
+
+                            {/* Display both Original and Detected Images */}
+                            <div className="image-preview">
+                                <div>
+                                    <p><strong>Original Image</strong></p>
+                                    <img 
+                                        src={`http://localhost:5000${uploadResponse.original_image}`} 
+                                        onError={(e) => e.target.src = "/placeholder.jpg"} 
+                                        alt="Original Road Damage" 
+                                    />
+                                </div>
+                                <div>
+                                    <p><strong>Detected Image</strong></p>
+                                    <img 
+                                        src={`http://localhost:5000${uploadResponse.detected_image}`} 
+                                        onError={(e) => e.target.src = "/placeholder.jpg"} 
+                                        alt="Detected Road Damage" 
+                                    />
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>

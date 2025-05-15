@@ -1,7 +1,7 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/Reports.css"; // ✅ Import the CSS file
-// ✅ Import CSS file
+import "../styles/Reports.css";
 
 const Reports = () => {
     const [reports, setReports] = useState([]);
@@ -23,11 +23,33 @@ const Reports = () => {
                 {reports.length > 0 ? (
                     reports.map((report, index) => (
                         <div key={index} className="report-card">
-                            <img 
-                                src={`http://localhost:5000/uploads/${report.filename}`} 
-                                alt="Road Damage" 
-                                className="report-image" 
-                            />
+                            <div className="image-container">
+                                {/* Display Original and Processed (Detected) Images */}
+                                <div className="image-wrapper">
+                                    <p>Original Image</p>
+                                    
+                                    <img 
+    src={`http://localhost:5000${report.original_image}`} 
+    onError={(e) => e.target.src = "/placeholder.jpg"} 
+    alt="Original Road Image" 
+    className="report-image"
+/>
+
+
+
+
+                                </div>
+                                <div className="image-wrapper">
+                                    <p>Detected Image</p>
+                                    <img 
+    src={`http://localhost:5000${report.detected_image}`} 
+    onError={(e) => e.target.src = "/placeholder.jpg"} 
+    alt="Detected Road Damage" 
+    className="report-image"
+/>
+
+                                </div>
+                            </div>
                             <div className="report-details">
                                 <p><strong>📍 Location:</strong> {report.location}</p>
                                 <p><strong>🛠 Crack Type:</strong> 
