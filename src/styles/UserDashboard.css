@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 /* 🌟 Dashboard Container */
 .dashboard-container {
@@ -137,6 +138,19 @@
     text-align: center;
 }
 
+=======
+/* Dashboard Container */
+.dashboard-container {
+    max-width: 800px;
+    margin: 80px auto 20px; /* Adjusted for navbar space */
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+>>>>>>> 15a7cc925385f5aeec5cae399e3994a39cf29e1f
 /* Headings */
 h2 {
     color: #333;
