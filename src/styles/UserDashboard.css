@@ -1,164 +1,29 @@
-<<<<<<< HEAD
-
 /* 🌟 Dashboard Container */
 .dashboard-container {
-    width: 80%;
+    width: 100%;
     max-width: 800px;
-    margin: auto; /* Centers horizontally */
+    margin: 80px auto 20px;
     padding: 20px;
-    background: white;
+    background-color: rgba(255, 255, 255, 0.8); /* ✅ Semi-transparent white */
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 80vh; /* Ensures it takes up enough space */
+    min-height: 80vh;
 }
 
-  
-  .dashboard-title {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* 🆙 Upload & Camera Options */
-  .upload-options {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .file-upload, .camera-button, .upload-btn, .status-btn {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 15px;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-  }
-  
-  .file-upload input {
-    display: none;
-  }
-  
-  .file-upload {
-    background: #28a745;
-    cursor: pointer;
-  }
-  
-  .file-upload:hover {
-    background: #218838;
-  }
-  
-  .camera-button:hover, .upload-btn:hover, .status-btn:hover {
-    background: #0056b3;
-  }
-  
-  /* 📸 Camera View */
-  .camera-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  video {
-    width: 100%;
-    max-width: 300px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .capture-button {
-    margin-top: 10px;
-    background: #ffc107;
-    color: black;
-    border: none;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  .capture-button:hover {
-    background: #e0a800;
-  }
-  
-  /* 📤 Upload Response */
-  .upload-result {
-    margin-top: 20px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
-  }
-  
-  .uploaded-image {
-    width: 100%;
-    max-width: 400px;
-    margin-top: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .error {
-    color: red;
+/* 📝 Title */
+.dashboard-title {
+    font-size: 2rem;
     font-weight: bold;
-  }
-  
-  /* 📜 Status Button */
-  .status-btn {
-    width: 100%;
-    margin-top: 20px;
-    padding: 12px;
-    font-size: 18px;
-    font-weight: bold;
-    background: #17a2b8;
-  }
-  
-  .status-btn:hover {
-    background: #138496;
-  }
-  
-
-/* Dashboard Container */
-.dashboard-container {
-    max-width: 800px;
-    margin: 80px auto 20px; /* Adjusted for navbar space */
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-=======
-/* Dashboard Container */
-.dashboard-container {
-    max-width: 800px;
-    margin: 80px auto 20px; /* Adjusted for navbar space */
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
->>>>>>> 15a7cc925385f5aeec5cae399e3994a39cf29e1f
-/* Headings */
-h2 {
-    color: #333;
-    font-size: 24px;
+    color: #222;
     margin-bottom: 20px;
 }
 
-/* Upload Options */
+/* 🆙 Upload & Camera Options */
 .upload-options {
     display: flex;
     flex-direction: column;
@@ -167,16 +32,16 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* File Upload Label */
+/* 📁 File Upload Button */
 .file-upload {
     display: inline-block;
-    background: #007bff;
+    background: #27bc45;
     color: white;
     padding: 10px 20px;
     font-size: 16px;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s ease;
 }
 
 .file-upload input {
@@ -184,78 +49,83 @@ h2 {
 }
 
 .file-upload:hover {
-    background: #0056b3;
+    background: #218838;
 }
 
-/* Camera Button */
+/* 📸 Camera Button */
 .camera-button {
-    background: #28a745;
+    background: #007bff;
     color: white;
     padding: 10px 20px;
     font-size: 16px;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s ease;
 }
 
 .camera-button:hover {
-    background: #1e7e34;
+    background: #0056b3;
 }
 
-/* Camera Container */
+/* 🎥 Camera Container */
 .camera-container {
     margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 video {
     width: 100%;
     max-width: 400px;
-    border-radius: 6px;
-    border: 2px solid #ddd;
+    border-radius: 10px;
+    border: 3px solid #ccc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Capture Button */
+/* 📸 Capture Button */
 .capture-button {
-    background: #ff9800;
-    color: white;
-    padding: 10px 15px;
-    font-size: 14px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
     margin-top: 10px;
-    transition: background 0.3s;
+    background: #ffc107;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
 .capture-button:hover {
-    background: #e68900;
+    background: #e0a800;
 }
 
-/* Upload Button */
+/* 🚀 Upload Image Button */
 .upload-btn {
     background: #17a2b8;
     color: white;
     padding: 12px 20px;
     font-size: 16px;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     margin-top: 20px;
-    transition: background 0.3s;
+    transition: background 0.3s ease;
 }
 
 .upload-btn:hover {
     background: #138496;
 }
 
-/* Upload Response */
+/* 📤 Upload Result Container */
 .upload-result {
     margin-top: 20px;
     padding: 15px;
-    border-radius: 6px;
     background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     text-align: left;
+    width: 100%;
 }
 
 .upload-result h3 {
@@ -267,15 +137,23 @@ video {
     font-size: 14px;
 }
 
-/* Error Message */
+/* ❌ Error Message */
 .error {
     color: red;
     font-weight: bold;
 }
 
-/* Image Preview */
+/* 🖼️ Image Previews */
 .image-preview {
     margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.image-container {
+    text-align: center;
 }
 
 .image-preview h4 {
@@ -287,77 +165,26 @@ video {
 .uploaded-image {
     width: 100%;
     max-width: 350px;
-    border-radius: 6px;
-    border: 2px solid #ddd;
-    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 3px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Status Button */
+/* 📜 View Status Button */
 .status-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
     background: #6c757d;
     color: white;
-    padding: 10px 20px;
-    font-size: 16px;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
-    margin-top: 20px;
-    transition: background 0.3s;
+    transition: background 0.3s ease;
 }
 
 .status-btn:hover {
-    background: #545b62;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    .dashboard-container {
-        width: 90%;
-        padding: 15px;
-    }
-
-    .upload-btn,
-    .status-btn,
-    .file-upload,
-    .camera-button {
-        width: 100%;
-        padding: 12px;
-    }
-}
-/* Image Preview Section */
-.image-preview {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px; /* Space between images */
-    margin-top: 20px;
-    flex-wrap: nowrap; /* Ensure they stay side by side */
-}
-
-/* Container for each image */
-.image-container {
-    text-align: center;
-    flex: 1; /* Distribute space evenly */
-    max-width: 50%; /* Each image takes half the space */
-}
-
-/* Image Styling */
-.uploaded-image {
-    width: 100%;
-    max-width: 300px; /* Fix image width */
-    height: 200px; /* Set fixed height */
-    object-fit: cover; /* Crop and fit image properly */
-    border-radius: 6px;
-    border: 2px solid #ddd;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .image-preview {
-        flex-direction: column; /* Stack images on smaller screens */
-    }
-
-    .image-container {
-        max-width: 100%;
-    }
+    background: #5a6268;
 }

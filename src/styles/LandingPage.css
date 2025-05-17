@@ -1,90 +1,63 @@
-/* LandingPage.css */
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f4f8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  background-color: green ;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
+
 .landing-container {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: auto;
   text-align: center;
-  padding: 10px;
+  padding: 20px;
 }
 
 .landing-logo {
-  width: 100px;
-  height: 80;
+  width: 120px;
+  height: auto;
   margin-bottom: 10px;
 }
 
 .landing-title {
-  font-size: 3rem;
-  font-weight: 700;
+  font-size: 2.8rem;
+  font-weight: bold;
   color: #003366;
-  margin: 10px 0;
   font-family: 'Georgia', serif;
 }
 
 .landing-subheading {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #3a5068;
   margin-bottom: 30px;
 }
 
 .image-slider {
   position: relative;
-  width: 90%;
-  max-height: 70vh;
-  margin: 0 auto 40px;
+  width: 100%;
+  max-height: 400px;
+  margin: 20px auto;
   overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
 .slider-image {
   width: 100%;
-  height: 70vh;
+  height: 400px;
   object-fit: cover;
-  border-radius: 12px;
-}
-.footer-marquee {
-  width: 100%;
-  overflow: hidden;
-  background-color: #0d3b66;
-  color: white;
-  padding: 15px 0;
-  font-size: 14px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  border-top: 4px solid #1e5f74;
-  z-index: 1000;
-}
-
-.footer-marquee p {
-  display: inline-block;
-  white-space: nowrap;
-  padding-left: 100%;
-  animation: slide-left 20s linear infinite;
-}
-
-@keyframes slide-left {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+  border-radius: 10px;
 }
 
 .arrow-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 2rem;
-  background-color: rgba(0, 0, 0, 0.4);
+  font-size: 1.8rem;
+  background-color: rgba(0, 51, 102, 0.7);
   color: white;
   border: none;
   border-radius: 50%;
@@ -96,7 +69,7 @@ body {
 }
 
 .arrow-btn:hover {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 51, 102, 0.9);
 }
 
 .arrow-left {
@@ -113,14 +86,14 @@ body {
 
 .role-selection p {
   font-size: 1.2rem;
-  margin-bottom: 15px;
   color: #0d3b66;
+  margin-bottom: 15px;
 }
 
 .nav-btn {
-  background-color: #1e5f74;
+  background: linear-gradient(to right, #1e5f74, #2a7d8f);
   color: white;
-  padding: 10px 20px;
+  padding: 12px 25px;
   margin: 0 10px;
   border-radius: 6px;
   text-decoration: none;
@@ -132,8 +105,59 @@ body {
   background-color: #144b5a;
 }
 
-.landing-footer {
-  margin-top: 40px;
+.footer-marquee {
+  width: 100%;
+  background-color: #0d3b66;
+  color: white;
+  padding: 12px 0;
   font-size: 14px;
-  color: #666;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
+
+.footer-marquee p {
+  display: inline-block;
+  animation: scrollText 20s linear infinite;
+}
+
+@keyframes scrollText {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.slider-track {
+  display: flex;
+  width: calc(200%); /* Since you render images twice */
+  animation: slideTrain 20s linear infinite;
+}
+
+.slider-image {
+  width: 25%; /* 4 images visible in viewport? Adjust */
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-right: 10px; /* optional spacing */
+}
+
+@keyframes slideTrain {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+
+@keyframes scrollText {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+

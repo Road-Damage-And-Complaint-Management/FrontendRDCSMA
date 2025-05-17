@@ -1,4 +1,4 @@
-/* 🌟 Navbar Styles */
+/* 🇮🇳 Municipal India Themed Navbar */
 .navbar {
     width: 100%;
     display: flex;
@@ -8,57 +8,57 @@
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, 0.2); /* Glassmorphism Effect */
-    backdrop-filter: blur(12px);
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    background: rgba(220, 20, 60, 0.7); /* Crimson Red glass effect */
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-  }
-  
-  /* 🔹 Logo */
-  .logo h2 {
-    color: #007bff;
-    font-size: 1.8rem;
-    font-weight: 700;
+}
+
+/* 🟥 Bold Red Logo */
+.logo h2 {
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 800;
     letter-spacing: 1px;
-  }
-  
-  /* 📌 Navigation Links */
-  .nav-links {
+    text-transform: uppercase;
+}
+
+/* 🔴 Navigation Links */
+.nav-links {
     display: flex;
     gap: 25px;
-  }
-  
-  .nav-links a {
+}
+
+.nav-links a {
     text-decoration: none;
-    color: #333;
+    color: #fff5f5;
     font-size: 1.1rem;
-    font-weight: 500;
+    font-weight: 600;
     transition: 0.3s ease-in-out;
     padding: 8px 14px;
     border-radius: 8px;
-  }
-  
-  .nav-links a:hover {
-    background: #007bff;
-    color: white;
+}
+
+.nav-links a:hover {
+    background: #b30000; /* Darker red on hover */
+    color: #ffffff;
     transform: scale(1.05);
-  }
-  
-  /* 📱 Responsive Navbar */
-  @media (max-width: 768px) {
+}
+
+/* 📱 Responsive Navbar */
+@media (max-width: 768px) {
     .navbar {
-      flex-direction: column;
-      align-items: center;
-      padding: 15px;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
     }
-  
+
     .nav-links {
-      margin-top: 10px;
-      gap: 15px;
+        margin-top: 10px;
+        gap: 15px;
     }
-  
+
     .nav-links a {
-      font-size: 1rem;
+        font-size: 1rem;
     }
-  }
-  
+}

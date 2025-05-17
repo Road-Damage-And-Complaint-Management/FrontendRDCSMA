@@ -74,7 +74,11 @@ const UserDashboard = ({ navigateToStatus }) => {
     };
 
     return (
-        <div className="dashboard-container">
+        <div className="dashboard-container" 
+        style={{
+                border:"4px Solid Black",
+        }}>
+            
             <h2 className="dashboard-title">User Dashboard</h2>
 
             <div className="upload-options">
@@ -132,7 +136,10 @@ const UserDashboard = ({ navigateToStatus }) => {
                             </div>
                         </div>
                     )}
+
+                    
                 </div>
+                
             )}
 
             <button className="status-btn" onClick={navigateToStatus}>📜 View Application Status</button>
