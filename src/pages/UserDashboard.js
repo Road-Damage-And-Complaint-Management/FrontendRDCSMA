@@ -1,19 +1,20 @@
 import React, { useState, useRef } from "react";
-import "../styles/UserDashboard.css"; // Ensure this CSS file exists
+import "../styles/UserDashboard.css";
 
 const UserDashboard = ({ navigateToStatus }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploadResponse, setUploadResponse] = useState(null);
     const [cameraActive, setCameraActive] = useState(false);
+    const [uploadCount, setUploadCount] = useState(0);
+    const [askUserName, setAskUserName] = useState(false);
+    const [tempUploadTriggered, setTempUploadTriggered] = useState(false);
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
 
-    // Handle File Upload
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
     };
 
-    // Start Camera
     const startCamera = async () => {
         try {
             setCameraActive(true);
@@ -27,7 +28,6 @@ const UserDashboard = ({ navigateToStatus }) => {
         }
     };
 
-    // Capture Image from Camera
     const capturePhoto = () => {
         if (!videoRef.current || !canvasRef.current) return;
         const context = canvasRef.current.getContext("2d");
@@ -44,50 +44,73 @@ const UserDashboard = ({ navigateToStatus }) => {
         }, "image/jpeg");
     };
 
-    // Upload Image
-    const handleUpload = async (event) => {
-        event.preventDefault();
-        if (!selectedFile) return alert("Please select an image first!");
+   const handleUpload = async (event) => {
+    event.preventDefault();
 
-        const formData = new FormData();
-        formData.append("image", selectedFile);
+    if (!selectedFile) return alert("Please select an image first!");
 
-        try {
-            const response = await fetch("http://127.0.0.1:5000/upload", {
-                method: "POST",
-                body: formData,
-            });
+    if (uploadCount >= 0 && !sessionStorage.getItem("username")) {
+        setAskUserName(true);
+        setTempUploadTriggered(true);
+        return;
+    }
 
-            const result = await response.json();
+    setUploadCount(prev => prev + 1);
 
-            if (response.ok) {
-                console.log("✅ Upload successful:", result);
-                setUploadResponse(result.data);
-            } else {
-                console.error("❌ Upload failed:", result.error);
-                setUploadResponse({ error: result.error });
-            }
-        } catch (error) {
-            console.error("❌ Network error:", error);
-            setUploadResponse({ error: "Network error. Please try again." });
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+
+    const username = sessionStorage.getItem("username") || "anonymous";
+    formData.append("user_email", username);  // ✅ Add username to formData
+
+    try {
+        const response = await fetch("http://127.0.0.1:5000/upload", {
+            method: "POST",
+            body: formData,
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            console.log("✅ Upload successful:", result);
+            setUploadResponse(result.data);
+        } else {
+            console.error("❌ Upload failed:", result.error);
+            setUploadResponse({ error: result.error });
+        }
+    } catch (error) {
+        console.error("❌ Network error:", error);
+        setUploadResponse({ error: "Network error. Please try again." });
+    }
+};
+
+
+    const handleNameSubmit = (e) => {
+        e.preventDefault();
+        const nameInput = e.target.elements.username.value.trim();
+        if (!nameInput) return alert("Please enter a valid name.");
+        sessionStorage.setItem("username", nameInput);
+        setAskUserName(false);
+
+        if (tempUploadTriggered) {
+            setTempUploadTriggered(false);
+            handleUpload(new Event("submit"));
         }
     };
 
     return (
-        <div className="dashboard-container" 
-        style={{
-                border:"4px Solid Black",
-        }}>
-            
+        <div className="dashboard-container" style={{ border: "4px solid black" }}>
             <h2 className="dashboard-title">User Dashboard</h2>
 
-            <div className="upload-options">
+            <div className="upload-options-row">
                 <label className="file-upload">
                     📁 Upload from Device
                     <input type="file" accept="image/*" onChange={handleFileChange} />
                 </label>
 
-                <button className="camera-button" onClick={startCamera}>📸 Capture from Camera</button>
+                <button className="camera-button" onClick={startCamera}>
+                    📸 Capture from Camera
+                </button>
             </div>
 
             {cameraActive && (
@@ -99,6 +122,14 @@ const UserDashboard = ({ navigateToStatus }) => {
             )}
 
             <button className="upload-btn" onClick={handleUpload}>🚀 Upload Image</button>
+
+            {askUserName && (
+                <form onSubmit={handleNameSubmit} className="name-form">
+                    <h3>Please enter your name:</h3>
+                    <input type="text" name="username" placeholder="Your Name" required />
+                    <button type="submit">Submit</button>
+                </form>
+            )}
 
             {uploadResponse && (
                 <div className="upload-result">
@@ -113,22 +144,22 @@ const UserDashboard = ({ navigateToStatus }) => {
                             <p><strong>GPS Location:</strong> {uploadResponse.location}</p>
                             <p><strong>Latitude:</strong> {uploadResponse.gps_latitude}</p>
                             <p><strong>Longitude:</strong> {uploadResponse.gps_longitude}</p>
+                            <p><strong>Depth Point:</strong> {uploadResponse.depth_points && uploadResponse.depth_points.length > 0 ? uploadResponse.depth_points[0] : "No depth points"}</p>
                             <p><strong>Status:</strong> {uploadResponse.status}</p>
 
-                            {/* Display Original and Detected Images Side by Side */}
                             <div className="image-preview">
                                 <div className="image-container">
                                     <h4>Original Image:</h4>
-                                    <img 
-                                        src={`http://127.0.0.1:5000/uploads/${uploadResponse.original_image}`} 
+                                    <img
+                                        src={`http://127.0.0.1:5000/uploads/${uploadResponse.original_image}`}
                                         alt="Uploaded road damage"
                                         className="uploaded-image"
                                     />
                                 </div>
                                 <div className="image-container">
                                     <h4>Detected Damage:</h4>
-                                    <img 
-                                        src={`http://127.0.0.1:5000/uploads/${uploadResponse.detected_image}`} 
+                                    <img
+                                        src={`http://127.0.0.1:5000/uploads/${uploadResponse.detected_image}`}
                                         alt="Detected road damage"
                                         className="uploaded-image"
                                     />
@@ -136,13 +167,14 @@ const UserDashboard = ({ navigateToStatus }) => {
                             </div>
                         </div>
                     )}
-
-                    
                 </div>
-                
             )}
 
-            <button className="status-btn" onClick={navigateToStatus}>📜 View Application Status</button>
+           
+
+            <p className="status-instruction">
+                📷 Upload an image from your device or capture one using your camera, then click 'Upload Image' to submit. 📄 Click 'View Application Status' to monitor the processing status of your submission.
+            </p>
         </div>
     );
 };

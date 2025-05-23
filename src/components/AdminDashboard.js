@@ -11,7 +11,7 @@ const AdminDashboard = () => {
     const highPriorityLocations = [
         "Saptapur", "HosaYellapurCross", "Gandhinagar", "Akkipeth",
         "ShriNagar", "Kalyanagar", "JubileeCircle", "TollNaka",
-        "Vidyagiri", "Old SP Circle","Cameroon"
+        "Vidyagiri", "Old SP Circle"
     ];
 
     useEffect(() => {
@@ -76,6 +76,13 @@ const AdminDashboard = () => {
         navigate("/");
     };
 
+    const getPriorityColor = (score) => {
+        if (score === 30) return "red";
+        if (score === 20) return "yellow";
+        if (score === 10) return "orange";
+        return "green";
+    };
+
     return (
         <div className="admin-dashboard">
             <div className="admin-header">
@@ -93,6 +100,7 @@ const AdminDashboard = () => {
                             <th>Location</th>
                             <th>Depth</th>
                             <th>Priority Score</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,7 +117,18 @@ const AdminDashboard = () => {
                                     </td>
                                     <td>{report.location}</td>
                                     <td>{report.depth_points?.[0] || "N/A"}</td>
-                                    <td>{report.priorityScore}</td>
+                                    <td style={{ backgroundColor: getPriorityColor(report.priorityScore), color: "black", fontWeight: "bold" }}>
+                                        {report.priorityScore}
+                                    </td>
+                                    <td>
+                                        <select name="selectStatus">
+                                                 <option value="Pending">Pending</option>
+                                                <option value="InReview">InReview</option>
+                                                 <option value="WorkStarted">WorkStarted</option>
+                                                <option value="InProgress">InProgress</option> 
+                                                <option value="Completed">Completed</option>
+      </select>
+                                    </td>
                                 </tr>
                             ))
                         ) : (

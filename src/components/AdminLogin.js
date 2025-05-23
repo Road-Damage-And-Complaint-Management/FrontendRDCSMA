@@ -3,70 +3,79 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/AdminLogin.css";
 
-const AdminLogin = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate();
+const AdminLogin = ({ setIsAdminLoggedIn }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        setError(""); // Clear previous errors
-    
-        try {
-            const response = await axios.post("http://localhost:5000/admin/login", {
-                email,
-                password,
-            }, { withCredentials: true });
-    
-            if (response.data.success) {
-                sessionStorage.setItem("admin_logged_in", "true");
-                navigate("/admin-dashboard"); // ✅ Redirect to dashboard
-            } else {
-                setError(response.data.message || "Invalid email or password.");
-            }
-        } catch (error) {
-            setError("Login failed. Please check your credentials.");
-        }
-    };
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
 
-    return (
-        <div className="admin-login-container">
-            <div className="admin-login-box">
-                <h2>Admin Login</h2>
-                <form onSubmit={handleLogin}>
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
+    try {
+      const response = await axios.post("http://localhost:5000/admin/login", {
+        email,
+        password,
+      });
 
-                    <div className="password-wrapper">
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                        <span
-                            className="toggle-password"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? "👁️" : "🔒"}
-                        </span>
-                    </div>
+      if (response.data.success) {
+        sessionStorage.setItem("admin_logged_in", "true");
+        setIsAdminLoggedIn(true);
+        navigate("/admin-dashboard");
+      } else {
+        setError(response.data.message || "Invalid email or password.");
+      }
+    } catch (error) {
+      setError("Login failed. Server is unreachable or credentials are wrong.");
+    }
+  };
 
-                    {error && <p className="error-message">{error}</p>}
+  return (
+    <div className="admin-login-container">
+      <div className="admin-login-box">
+        <h2>Admin Login</h2>
+        <form onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoComplete="username"
+          />
 
-                    <button type="submit">Login</button>
-                </form>
-            </div>
-        </div>
-    );
+          <div className="password-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+            />
+            <span
+              className="toggle-password"
+              onClick={() => setShowPassword(!showPassword)}
+              role="button"
+              aria-label="Toggle password visibility"
+              tabIndex={0}
+              onKeyPress={(e) => {
+                if (e.key === "Enter" || e.key === " ") setShowPassword(!showPassword);
+              }}
+            >
+              {showPassword ? "👁️" : "🔒"}
+            </span>
+          </div>
+
+          {error && <p className="error-message">{error}</p>}
+
+          <button type="submit" className="login-btn">Login</button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default AdminLogin;

@@ -188,3 +188,15 @@ video {
 .status-btn:hover {
     background: #5a6268;
 }
+.upload-options-row {
+  display: flex;
+  gap: 15px; /* Space between buttons */
+  justify-content: center; /* Center the buttons horizontally */
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+.status-instruction {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+}
