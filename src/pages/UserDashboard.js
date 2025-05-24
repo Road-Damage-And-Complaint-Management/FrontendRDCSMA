@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../styles/UserDashboard.css";
 
 const UserDashboard = ({ navigateToStatus }) => {
     const [selectedFile, setSelectedFile] = useState(null);
+    const [previewURL, setPreviewURL] = useState(null); // 🔍 Image preview before upload
     const [uploadResponse, setUploadResponse] = useState(null);
     const [cameraActive, setCameraActive] = useState(false);
     const [uploadCount, setUploadCount] = useState(0);
@@ -11,8 +12,19 @@ const UserDashboard = ({ navigateToStatus }) => {
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
 
+    useEffect(() => {
+        if (selectedFile) {
+            const objectUrl = URL.createObjectURL(selectedFile);
+            setPreviewURL(objectUrl);
+            return () => URL.revokeObjectURL(objectUrl);
+        }
+    }, [selectedFile]);
+
     const handleFileChange = (e) => {
-        setSelectedFile(e.target.files[0]);
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+        }
     };
 
     const startCamera = async () => {
@@ -34,7 +46,8 @@ const UserDashboard = ({ navigateToStatus }) => {
         context.drawImage(videoRef.current, 0, 0, 300, 200);
 
         canvasRef.current.toBlob((blob) => {
-            setSelectedFile(new File([blob], "captured_image.jpg", { type: "image/jpeg" }));
+            const file = new File([blob], "captured_image.jpg", { type: "image/jpeg" });
+            setSelectedFile(file);
             setCameraActive(false);
 
             if (videoRef.current.srcObject) {
@@ -44,46 +57,45 @@ const UserDashboard = ({ navigateToStatus }) => {
         }, "image/jpeg");
     };
 
-   const handleUpload = async (event) => {
-    event.preventDefault();
+    const handleUpload = async (event) => {
+        event.preventDefault();
 
-    if (!selectedFile) return alert("Please select an image first!");
+        if (!selectedFile) return alert("Please select or capture an image first!");
 
-    if (uploadCount >= 0 && !sessionStorage.getItem("username")) {
-        setAskUserName(true);
-        setTempUploadTriggered(true);
-        return;
-    }
-
-    setUploadCount(prev => prev + 1);
-
-    const formData = new FormData();
-    formData.append("image", selectedFile);
-
-    const username = sessionStorage.getItem("username") || "anonymous";
-    formData.append("user_email", username);  // ✅ Add username to formData
-
-    try {
-        const response = await fetch("http://127.0.0.1:5000/upload", {
-            method: "POST",
-            body: formData,
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            console.log("✅ Upload successful:", result);
-            setUploadResponse(result.data);
-        } else {
-            console.error("❌ Upload failed:", result.error);
-            setUploadResponse({ error: result.error });
+        if (uploadCount >= 0 && !sessionStorage.getItem("username")) {
+            setAskUserName(true);
+            setTempUploadTriggered(true);
+            return;
         }
-    } catch (error) {
-        console.error("❌ Network error:", error);
-        setUploadResponse({ error: "Network error. Please try again." });
-    }
-};
 
+        setUploadCount(prev => prev + 1);
+
+        const formData = new FormData();
+        formData.append("image", selectedFile);
+
+        const username = sessionStorage.getItem("username") || "anonymous";
+        formData.append("user_email", username);
+
+        try {
+            const response = await fetch("http://127.0.0.1:5000/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                setUploadResponse(result.data);
+                console.log("✅ Upload successful:", result.data);
+            } else {
+                console.error("❌ Upload failed:", result.error);
+                setUploadResponse({ error: result.error });
+            }
+        } catch (error) {
+            console.error("❌ Network error:", error);
+            setUploadResponse({ error: "Network error. Please try again." });
+        }
+    };
 
     const handleNameSubmit = (e) => {
         e.preventDefault();
@@ -121,6 +133,13 @@ const UserDashboard = ({ navigateToStatus }) => {
                 </div>
             )}
 
+            {previewURL && (
+                <div className="image-preview">
+                    <h4>Image Preview:</h4>
+                    <img src={previewURL} alt="Preview" className="uploaded-image" />
+                </div>
+            )}
+
             <button className="upload-btn" onClick={handleUpload}>🚀 Upload Image</button>
 
             {askUserName && (
@@ -144,33 +163,35 @@ const UserDashboard = ({ navigateToStatus }) => {
                             <p><strong>GPS Location:</strong> {uploadResponse.location}</p>
                             <p><strong>Latitude:</strong> {uploadResponse.gps_latitude}</p>
                             <p><strong>Longitude:</strong> {uploadResponse.gps_longitude}</p>
-                            <p><strong>Depth Point:</strong> {uploadResponse.depth_points && uploadResponse.depth_points.length > 0 ? uploadResponse.depth_points[0] : "No depth points"}</p>
+                            <p><strong>Depth Point:</strong> {uploadResponse.depth_points?.[0] || "No depth points"}</p>
                             <p><strong>Status:</strong> {uploadResponse.status}</p>
 
                             <div className="image-preview">
-                                <div className="image-container">
-                                    <h4>Original Image:</h4>
-                                    <img
-                                        src={`http://127.0.0.1:5000/uploads/${uploadResponse.original_image}`}
-                                        alt="Uploaded road damage"
-                                        className="uploaded-image"
-                                    />
-                                </div>
-                                <div className="image-container">
-                                    <h4>Detected Damage:</h4>
-                                    <img
-                                        src={`http://127.0.0.1:5000/uploads/${uploadResponse.detected_image}`}
-                                        alt="Detected road damage"
-                                        className="uploaded-image"
-                                    />
-                                </div>
+                                {uploadResponse.original_image && (
+                                    <div className="image-container">
+                                        <h4>Original Image:</h4>
+                                        <img
+                                            src={`http://127.0.0.1:5000/uploads/${uploadResponse.original_image}`}
+                                            alt="Uploaded road damage"
+                                            className="uploaded-image"
+                                        />
+                                    </div>
+                                )}
+                                {uploadResponse.detected_image && (
+                                    <div className="image-container">
+                                        <h4>Detected Damage:</h4>
+                                        <img
+                                            src={`http://127.0.0.1:5000/uploads/${uploadResponse.detected_image}`}
+                                            alt="Detected road damage"
+                                            className="uploaded-image"
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}
                 </div>
             )}
-
-           
 
             <p className="status-instruction">
                 📷 Upload an image from your device or capture one using your camera, then click 'Upload Image' to submit. 📄 Click 'View Application Status' to monitor the processing status of your submission.
