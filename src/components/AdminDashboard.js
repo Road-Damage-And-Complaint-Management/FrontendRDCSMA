@@ -70,6 +70,24 @@ const AdminDashboard = () => {
 
         fetchReports();
     }, []);
+const handleStatusChange = async (e, reportId) => {
+    const newStatus = e.target.value;
+    try {
+        await axios.put(`http://localhost:5000/update_status/${reportId}`, {
+            status: newStatus
+        });
+
+        // Update UI locally after success
+        setReports((prevReports) =>
+            prevReports.map((r) =>
+                r._id === reportId ? { ...r, status: newStatus } : r
+            )
+        );
+    } catch (error) {
+        console.error("Failed to update status:", error);
+        alert("Status update failed.");
+    }
+};
 
     const handleLogout = () => {
         localStorage.removeItem("adminToken");
@@ -121,13 +139,18 @@ const AdminDashboard = () => {
                                         {report.priorityScore}
                                     </td>
                                     <td>
-                                        <select name="selectStatus">
-                                                 <option value="Pending">Pending</option>
-                                                <option value="InReview">InReview</option>
-                                                 <option value="WorkStarted">WorkStarted</option>
-                                                <option value="InProgress">InProgress</option> 
-                                                <option value="Completed">Completed</option>
-      </select>
+                                       <select
+    name="selectStatus"
+    value={report.status || "Pending"}
+    onChange={(e) => handleStatusChange(e, report._id)}
+>
+    <option value="Pending">Pending</option>
+    <option value="InReview">InReview</option>
+    <option value="WorkStarted">WorkStarted</option>
+    <option value="InProgress">InProgress</option>
+    <option value="Completed">Completed</option>
+</select>
+
                                     </td>
                                 </tr>
                             ))
