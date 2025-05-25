@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 const UserComplaints = () => {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [hover, setHover] = useState(false);
   const navigate = useNavigate();
 
   const fetchUserComplaints = async () => {
@@ -39,10 +39,19 @@ const UserComplaints = () => {
 
   return (
     <div style={styles.page}>
-      {/* Top Navbar with Back Button */}
+      {/* Fixed Top Navbar */}
       <div style={styles.navbar}>
         <h2 style={styles.logo}>Road Complaint Portal</h2>
-        <button style={styles.backButton} onClick={() => navigate("/upload")}>
+        <button
+          style={{
+            ...styles.backButton,
+            backgroundColor: hover ? "#e74c3c" : styles.backButton.backgroundColor,
+            color: hover ? "#fff" : styles.backButton.color,
+          }}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          onClick={() => navigate("/upload")}
+        >
           ← Back to Upload
         </button>
       </div>
@@ -69,7 +78,6 @@ const UserComplaints = () => {
               e.currentTarget.style.boxShadow = styles.card.boxShadow;
             }}
           >
-            
             <div style={styles.cardBody}>
               <div style={styles.row}><strong>📍 Location:</strong> {c.location}</div>
               <div style={styles.row}><strong>🧱 Crack Type:</strong> {c.crack_type}</div>
@@ -90,48 +98,43 @@ const UserComplaints = () => {
 
 const styles = {
   page: {
-  
-  position: "absolute",              // Anchor to full viewport
-  top: 0,
-  left: 0,
-  width: "100vw",                    // Full viewport width
-  height: "100vh",                   // Full viewport height
-  padding: "100px 20px",
-  backgroundColor: "#f4f6f9",
-  fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-  boxSizing: "border-box",
-  overflowY: "auto",                 // Allows scroll if content overflows
-},
-navbar: {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  padding: "20px 40px",
-  backgroundColor: "rgb(0, 69, 179)",
-  color: "white",
-  zIndex: 1000,
-  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-},
+    width: "100vw",
+    minHeight: "100vh",
+    backgroundColor: "#f4f6f9",
+    padding: "100px 40px 40px", // Add top padding for fixed navbar
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    boxSizing: "border-box",
+  },
+  navbar: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "20px 40px",
+    backgroundColor: "rgb(0, 69, 179)",
+    color: "white",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+  },
   logo: {
     margin: 0,
     fontSize: "24px",
     fontWeight: "bold",
   },
- backButton: {
-  backgroundColor: "#ecf0f1",
-  color: "#2c3e50",
-  border: "none",
-  padding: "10px 16px",
-  borderRadius: "6px",
-  fontSize: "16px",
-  fontWeight: "500",
-  cursor: "pointer",
-  transition: "all 0.3s ease",
-},
+  backButton: {
+    backgroundColor: "#ecf0f1",
+    color: "#2c3e50",
+    border: "none",
+    padding: "10px 16px",
+    borderRadius: "6px",
+    fontSize: "16px",
+    fontWeight: "500",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+  },
   title: {
     fontSize: "36px",
     fontWeight: "700",
@@ -160,11 +163,6 @@ navbar: {
     transition: "all 0.3s ease-in-out",
     display: "flex",
     flexDirection: "column",
-  },
-  image: {
-    width: "100%",
-    height: "220px",
-    objectFit: "cover",
   },
   cardBody: {
     padding: "20px",
